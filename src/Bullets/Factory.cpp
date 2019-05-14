@@ -54,7 +54,7 @@ std::shared_ptr<Bullet> Factory::createBullet(std::string definition)
 
 	//Create the return bullet.
 	std::shared_ptr<Bullet> b(new Bullet());
-	
+
 	//Set the bullet window pointer.
 	b->setWindow(mWindow);
 
@@ -65,7 +65,6 @@ std::shared_ptr<Bullet> Factory::createBullet(std::string definition)
 		mScripts->script(
 			"resource/bullets/scripts/" +
 			data.at("behavior").get<std::string>()));
-
 
 	//Init the bullet
 	b->init();
