@@ -1,0 +1,11 @@
+{
+	"behavior": "basic.lua",
+	"bodies": [
+		{
+			"type": "circle",
+			"radius": 8,
+			"image": "basic.png",
+			"offset": [0, 0]
+		}
+	]
+}
