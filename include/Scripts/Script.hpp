@@ -34,8 +34,22 @@ public:
 	/**
 	 * @brief Run the function.
 	 * 
+	 * @tparam Args The type of args to pass to the lua iterate() function itself.
+	 * @param args The arguments to pass to iterate(..).
 	 */
-	void run();
+	template <typename... Args>
+	void run(Args... args)
+	{
+		//Get the iterate() function (the main entry point.)
+		auto function = mState["iterate"];
+		//If it's not valid, throw an error.
+		if (!function.valid())
+		{
+			throw std::runtime_error("Sol function `iterate` is not valid!");
+		}
+		//Otherwise, run it.
+		function(args...);
+	}
 
 	/**
 	 * @brief Push data into a lua global table. 
