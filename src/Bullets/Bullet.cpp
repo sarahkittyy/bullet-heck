@@ -80,18 +80,6 @@ bool Bullet::intersects(sf::FloatRect body)
 	return false;
 }
 
-void Bullet::update(float msElapsed)
-{
-	//Increment how long the bullet has lived for.
-	msLived += static_cast<size_t>(std::max(msElapsed, 1.f));
-
-	pushScriptData();
-	//Push some extra globals
-	mScript->push("_G", "msElapsed", msElapsed);
-	//Run the script
-	mScript->run();
-}
-
 void Bullet::pushScriptData()
 {
 	//GETTERS

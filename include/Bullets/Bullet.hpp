@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Scripts/Script.hpp"
+#include "sol/sol.hpp"
 
 namespace Bullet
 {
@@ -39,16 +40,47 @@ public:
 	 */
 	void setVelocity(sf::Vector2f new_vel);
 
+	/**
+	 * @brief Get the bullet position.
+	 * 
+	 * @return sf::Vector2f The bullet's position.
+	 */
 	sf::Vector2f getPosition();
+
+	/**
+	 * @brief Get the bullet velocity.
+	 * 
+	 * @return sf::Vector2f The bullet velocity.
+	 */
 	sf::Vector2f getVelocity();
+
+	/**
+	 * @brief Get the ms the bullet has been alive for.
+	 * 
+	 * @return size_t The milliseconds lived.
+	 */
 	size_t getMsLived();
 
 	/**
 	 * @brief Update the bullet.
 	 * 
+	 * @tparam Args Args to pass to the lua script.
+	 * 
 	 * @param msElapsed The milliseconds since the last frame.
+	 * @param ...args The args to pass to the update script.
 	 */
-	void update(float msElapsed);
+	template <typename... Args>
+	void update(float msElapsed, Args... args)
+	{
+		//Increment how long the bullet has lived for.
+		msLived += static_cast<size_t>(std::max(msElapsed, 1.f));
+
+		pushScriptData();
+		//Push some extra globals
+		mScript->push("_G", "msElapsed", msElapsed);
+		//Run the script
+		mScript->run(args...);
+	}
 
 	/**
 	 * @brief True if the bullet should be deleted.
