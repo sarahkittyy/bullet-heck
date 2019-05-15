@@ -9,4 +9,4 @@ See `resource/bullets/` for more info.
 
 ## Programmer notes
 
-* Script::Manager may cause conflicting issues between objects fighting over it. Until this is (probably) refactored, be sure to reset & push necessary values to the lua stack on each script run.
+~~* Script::Manager may cause conflicting issues between objects fighting over it. Until this is (probably) refactored, be sure to reset & push necessary values to the lua stack on each script run.~~ Fixed!
