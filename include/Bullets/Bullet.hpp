@@ -59,7 +59,7 @@ public:
 	 * 
 	 * @return size_t The milliseconds lived.
 	 */
-	size_t getMsLived();
+	float getMsLived();
 
 	/**
 	 * @brief Update the bullet.
@@ -73,13 +73,13 @@ public:
 	void update(float msElapsed, Args... args)
 	{
 		//Increment how long the bullet has lived for.
-		msLived += static_cast<size_t>(std::max(msElapsed, 1.f));
+		msLived += msElapsed;
 
-		pushScriptData();
-		//Push some extra globals
-		mScript->push("_G", "msElapsed", msElapsed);
+		//The msElapsed value.
+		mScript.function("_G", "msElapsed", [msElapsed]() { return msElapsed; });
+
 		//Run the script
-		mScript->run(args...);
+		mScript.run(args...);
 	}
 
 	/**
@@ -128,16 +128,16 @@ private:
 	void init();
 
 	/**
-	 * @brief Push live script data, such as position and data.
+	 * @brief Initialize script global references.
 	 * 
 	 */
-	void pushScriptData();
+	void initScript();
 
 	/**
 	 * @brief The bullet behavior script.
 	 * 
 	 */
-	Script::Script* mScript;
+	Script::Script mScript;
 
 	/**
 	 * @brief The position of the bullet, where offset bodies are centered around.
@@ -155,7 +155,7 @@ private:
 	 * @brief How long the bullet has been alive for, in ms.
 	 * 
 	 */
-	size_t msLived;
+	float msLived;
 
 	/**
 	 * @brief Whether or not the bullet is alive.
@@ -196,9 +196,9 @@ private:
 	/**
 	 * @brief Set the bullet's behavior script.
 	 * 
-	 * @param s A pointer to the script to use.
+	 * @param file The path to the script file.
 	 */
-	void setScript(Script::Script* s);
+	void setScript(std::string file);
 
 	/**
 	 * @brief Pointer to the app window.

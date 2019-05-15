@@ -18,6 +18,48 @@ void Bullet::setWindow(sf::RenderWindow* window)
 
 void Bullet::init()
 {
+	initScript();
+}
+
+void Bullet::initScript()
+{
+	//GETTERS
+	//msLived
+	mScript.function("Bullet", "getLife", [this]() {
+		return this->getMsLived();
+	});
+	//position
+	mScript.function("Bullet", "getPos", [this]() {
+		return sol::as_table(
+			std::unordered_map<std::string, float>{{"x", this->getPosition().x}, {"y", this->getPosition().y}});
+	});
+	//velocity
+	mScript.function("Bullet", "getVel", [this]() {
+		return sol::as_table(
+			std::unordered_map<std::string, float>{{"x", this->getVelocity().x}, {"y", this->getVelocity().y}});
+	});
+
+	//SETTERS
+	//position
+	mScript.function("Bullet", "setPos", [this](float x, float y) {
+		this->setPosition({x, y});
+	});
+	//velocity
+	mScript.function("Bullet", "setVel", [this](float x, float y) {
+		this->setVelocity({x, y});
+	});
+
+	//OTHER
+	//delete
+	mScript.function("Bullet", "delete", [this]() {
+		this->del();
+	});
+
+	//GLOBALS
+	mScript.function("_G", "winsize", [this]() {
+		//what a mess of a line of code oml
+		return sol::as_table(std::unordered_map<std::string, size_t>{{"x", this->mWindow->getSize().x}, {"y", this->mWindow->getSize().y}});
+	});
 }
 
 bool Bullet::contains(sf::Vector2f pos)
@@ -80,28 +122,6 @@ bool Bullet::intersects(sf::FloatRect body)
 	return false;
 }
 
-void Bullet::pushScriptData()
-{
-	//GETTERS
-	//position
-	mScript->push<float>("Bullet", "getPos", {{"x", getPosition().x}, {"y", getPosition().y}});
-	//velocity
-	mScript->push<float>("Bullet", "getVel", {{"x", getVelocity().x}, {"y", getVelocity().y}});
-	//Life
-	mScript->push("Bullet", "getLife", getMsLived());
-
-	//Window size
-	mScript->push<unsigned>("_G", "winsize", {{"x", mWindow->getSize().x}, {"y", mWindow->getSize().y}});
-
-	//SETTERS
-	//position
-	mScript->function("Bullet", "setPos", [this](float x, float y) -> void { this->setPosition({x, y}); });
-	//vel
-	mScript->function("Bullet", "setVel", [this](float x, float y) -> void { this->setVelocity({x, y}); });
-	//delete
-	mScript->function("Bullet", "delete", [this]() -> void { this->del(); });
-}
-
 void Bullet::setPosition(sf::Vector2f new_pos)
 {
 	mPosition = new_pos;
@@ -122,7 +142,7 @@ sf::Vector2f Bullet::getVelocity()
 	return mVelocity;
 }
 
-size_t Bullet::getMsLived()
+float Bullet::getMsLived()
 {
 	return msLived;
 }
@@ -166,10 +186,9 @@ sf::RectangleShape* Bullet::createCircularBody()
 	return back;
 }
 
-void Bullet::setScript(Script::Script* s)
+void Bullet::setScript(std::string file)
 {
 	//Set the script
-	mScript = s;
+	mScript.init(file);
 }
-
 }
