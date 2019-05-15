@@ -12,7 +12,7 @@ namespace Script
 {
 
 /**
- * @brief A generic lua script, for use with the script manager.
+ * @brief A generic lua script.
  * 
  */
 class Script
