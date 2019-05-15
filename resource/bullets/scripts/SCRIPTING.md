@@ -25,4 +25,4 @@ The script entry point is iterate().
     | Function | Returns | Comment |
     |----------|---------|---------|
     | `winsize()`  | `{x = number, y = number}` | The size of the window |
-    | `msElapsed` | `number` | The milliseconds elapsed since last frame
+    | `msElapsed()` | `number` | The milliseconds elapsed since last frame
