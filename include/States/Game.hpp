@@ -24,8 +24,6 @@ public:
 private:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
-	Script::Manager sm;
-
 	Bullet::Factory f;
 	Bullet::Manager m;
 };
