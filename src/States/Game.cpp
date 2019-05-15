@@ -5,8 +5,10 @@ namespace States
 
 void Game::init()
 {
-	f.init(window(), resources(), &sm);
+	f.init(window(), resources());
 	m.init(&f);
+
+	auto b = m.createBullet("default");
 }
 
 void Game::update(float msElapsed)
