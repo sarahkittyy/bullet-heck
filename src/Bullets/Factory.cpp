@@ -3,14 +3,12 @@
 namespace Bullet
 {
 
-void Factory::init(sf::RenderWindow* window, ResourceManager* resources, Script::Manager* sm)
+void Factory::init(sf::RenderWindow* window, ResourceManager* resources)
 {
 	//Init the window pointer.
 	mWindow = window;
 	//Init the resource manager.
 	mResources = resources;
-	//Init the script manager.
-	mScripts = sm;
 
 	namespace fs = std::filesystem;
 	using nlohmann::json;
@@ -61,10 +59,7 @@ std::shared_ptr<Bullet> Factory::createBullet(std::string definition)
 	//Load the bullet bodies
 	loadBulletBodies(b, data);
 	//Load the bullet script
-	b->setScript(
-		mScripts->script(
-			"resource/bullets/scripts/" +
-			data.at("behavior").get<std::string>()));
+	b->setScript("resource/bullets/scripts/" + data.at("behavior").get<std::string>());
 
 	//Init the bullet
 	b->init();

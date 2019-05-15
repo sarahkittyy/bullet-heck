@@ -34,9 +34,8 @@ public:
 	 * 
 	 * @param window The application window.
 	 * @param resources The application resource manager.
-	 * @param sm The application script manager.
 	 */
-	void init(sf::RenderWindow* window, ResourceManager* resources, Script::Manager* sm);
+	void init(sf::RenderWindow* window, ResourceManager* resources);
 
 	/**
 	 * @brief Creates a new bullet, using the given definition name.
@@ -61,12 +60,6 @@ private:
 	 * 
 	 */
 	ResourceManager* mResources;
-
-	/**
-	 * @brief The app script manager.
-	 * 
-	 */
-	Script::Manager* mScripts;
 
 	/**
 	 * @brief A map of bullet names to their definitions.
