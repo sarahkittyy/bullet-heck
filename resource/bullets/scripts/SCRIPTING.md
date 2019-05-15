@@ -2,12 +2,15 @@
 
 ## Global Tables
 
-The scripting engine stores bullet & other information in global tables
-updated on every script run.
+A unique lua script state instance is loaded for each bullet spawned. The script is initialized with objects listed below, that reference bullet instance member functions, such as position.
 
 The script entry point is iterate().
 
+Parameters may be passed to the iterate() function.
+
 ### Tables
+
+These are the current objects made available in the lua script.
 
 * `Bullet.`
 
